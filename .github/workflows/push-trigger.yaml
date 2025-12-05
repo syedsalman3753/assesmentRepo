@@ -32,7 +32,7 @@ jobs:
             ONLY_DOCKER: true
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}
-    uses: syedsalman3753/kattu/.github/workflows/docker-build.yml@master
+    uses: syedsalman3753/kattu/.github/workflows/docker-build-1.yaml@master
     with:
       SERVICE_LOCATION: ${{ matrix.SERVICE_LOCATION }}
       SERVICE_NAME: ${{ matrix.SERVICE_NAME }}
