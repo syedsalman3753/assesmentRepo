@@ -106,9 +106,19 @@ resource "aws_lb_listener" "listener" {
   }
 }
 
+# CloudWatch Log Group for ECS
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name              = "/ecs/${var.app_name}"
+  retention_in_days = 7
+}
+
 # ECS Cluster
 resource "aws_ecs_cluster" "cluster" {
   name = "${var.app_name}-cluster"
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
 }
 
 # ECS Task Execution Role
@@ -146,11 +156,21 @@ resource "aws_ecs_task_definition" "task" {
     name  = var.app_name
     image = var.image
     essential = true
+
     portMappings = [{
       containerPort = var.container_port
       hostPort      = var.container_port
       protocol      = "tcp"
     }]
+
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        awslogs-group         = aws_cloudwatch_log_group.ecs_logs.name
+        awslogs-region        = var.aws_region
+        awslogs-stream-prefix = "ecs"
+      }
+    }
   }])
 }
 
@@ -174,5 +194,10 @@ resource "aws_ecs_service" "service" {
     container_name   = var.app_name
     container_port   = var.container_port
   }
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_logs" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
 
