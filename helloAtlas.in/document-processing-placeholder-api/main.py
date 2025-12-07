@@ -5,4 +5,4 @@ app = FastAPI()
 
 @app.post("/process")
 async def process_file(file: UploadFile = File(...)):
-    return JSONResponse({"status": "ok","testing": "newChange", "filename": file.filename})
+    return JSONResponse({"status": "ok", "filename": file.filename})
