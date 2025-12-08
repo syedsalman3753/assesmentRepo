@@ -153,8 +153,8 @@ resource "aws_ecs_task_definition" "task" {
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
   container_definitions = jsonencode([{
-    name  = var.app_name
-    image = var.image
+    name      = var.app_name
+    image     = var.image
     essential = true
 
     portMappings = [{
@@ -176,7 +176,7 @@ resource "aws_ecs_task_definition" "task" {
 
 # ECS Service
 resource "aws_ecs_service" "service" {
-  depends_on = [aws_lb_listener.listener]
+  depends_on      = [aws_lb_listener.listener]
   name            = "${var.app_name}-service"
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task.arn
@@ -184,8 +184,8 @@ resource "aws_ecs_service" "service" {
   desired_count   = 1
 
   network_configuration {
-    subnets         = data.aws_subnets.default.ids
-    security_groups = [aws_security_group.ecs_sg.id]
+    subnets          = data.aws_subnets.default.ids
+    security_groups  = [aws_security_group.ecs_sg.id]
     assign_public_ip = true
   }
 

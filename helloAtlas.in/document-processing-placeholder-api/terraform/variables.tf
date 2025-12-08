@@ -1,19 +1,21 @@
 variable "aws_region" {
-  default = "ap-south-1"
+  #default = ""
 }
 
 variable "app_name" {
-  default = "document-processing-app"
+  #default = ""
 }
 
 variable "container_port" {
-  default = 8000
+  #default = 8000
+  type = number
 }
 
 variable "alb_port" {
-  default = 80
+  #default = 80
+  type = number
 }
 
 variable "image" {
-  default = "syedsalman041997/document-processing-placeholder-api:master"
+  #default = ""
 }
