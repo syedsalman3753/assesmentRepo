@@ -1,0 +1,16 @@
+name : Validate PR for TF
+
+on:
+  pull-requests:
+    branches:
+      - masters
+
+env:
+  tf_work_dir: ./infra/terraform
+jobs:
+  validate-pr:
+    runs-on: ubuntu-20.04
+    tasks:
+      - uses: checkout@v4
+      - name: terraform validate
+        run: cd ${env.tf_work_dir} && terraform validate

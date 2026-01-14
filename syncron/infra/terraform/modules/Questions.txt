@@ -1,0 +1,15 @@
+terraform interview questions
+
+Create a reusable Terraform module for AWS Security Groups with dynamic rule management
+
+Scenario: Your development teams need to create security groups for various applications (web servers, databases, microservices, etc.).
+Each application has different ingress and egress requirements that change frequently. Hard-coding individual aws_security_group_rule resources for each rule is not scalable.
+Requirements:
+Create a Terraform module that accepts a variable containing multiple ingress and egress rules
+Dynamically create all security group rules from the variable input
+Support different rule types:
+CIDR block-based rules
+Source/destination security group rules
+Prefix list rules
+Handle optional parameters (description, protocol, port ranges)
+Make it reusable across different applications and environments
